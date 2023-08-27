@@ -8,12 +8,12 @@ env:  # available for all jobs in entire workflow
   MONGODB_DB_NAME: gha-demo
 jobs:
   test:
+    environment: testing
     env:  # available for this job to all steps
       MONGODB_CLUSTER_ADDRESS: cluster0.15pwqcc.mongodb.net
       MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
       MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
       POSRT: 8080
-    environment: testing
     runs-on: ubuntu-latest
     steps:
       - name: Get Code
