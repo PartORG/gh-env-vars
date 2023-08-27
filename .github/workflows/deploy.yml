@@ -10,8 +10,8 @@ jobs:
   test:
     env:  # available for this job to all steps
       MONGODB_CLUSTER_ADDRESS: cluster0.15pwqcc.mongodb.net
-      MONGODB_USERNAME: maximilian
-      MONGODB_PASSWORD: someTestPassword12345
+      MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
+      MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
       POSRT: 8080
     environment: testing
     runs-on: ubuntu-latest
