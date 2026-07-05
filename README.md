@@ -1,68 +1,83 @@
-# gh-env-vars
+# PartORG/gh-env-vars
 
-A simple backend application using Express.js and MongoDB to manage environment variables securely.
+**A simple backend application using Node.js, Express, and MongoDB to manage events.**
 
-[![JavaScript](https://img.shields.io/badge/language-JavaScript-blue.svg)] [![Express](https://img.shields.io/badge/framework-Express-green.svg)] [![MongoDB](https://img.shields.io/badge/database-MongoDB-brown.svg)] [![License](https://img.shields.io/badge/license-ISC-red.svg)] [![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)]
+[![JavaScript](https://img.shields.io/badge/language-JavaScript-blue.svg)] [![Node.js](https://img.shields.io/badge/runtime-Node.js-green.svg)] [![License](https://img.shields.io/badge/license-ISC-red.svg)] [![npm](https://img.shields.io/badge/package%20manager-npm-yellow.svg)] [![Express](https://img.shields.io/badge/framework-Express-brightgreen.svg)] [![Playwright](https://img.shields.io/badge/testing-Playwright-purple.svg)]
 
 ## Introduction
 
-`gh-env-vars` is a lightweight backend application designed to manage environment variables securely. It leverages Express.js for routing and MongoDB for data storage, ensuring that sensitive information is handled with care.
+Welcome to `gh-env-vars`, a backend application designed to manage events using Node.js, Express, and MongoDB. This project is perfect for developers looking to learn how to build a simple RESTful API with these technologies.
 
-The primary workflow of this project involves setting up an Express server, connecting it to a MongoDB database, and providing endpoints to create, read, update, and delete environment variables. This application is particularly useful for developers who need a simple way to manage their environment variables without exposing them in the codebase.
+The primary workflow involves setting up the environment, installing dependencies, configuring the database, and running the server. The main advantages of this project include its simplicity, ease of use, and the ability to manage events efficiently.
 
 ## Table of Contents
 
-- [Features](#features)
-- [How It Works](#how-it-works)
-- [Technology Stack](#technology-stack)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Quick Start](#quick-start)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
-- [Development](#development)
-- [Testing](#testing)
-- [Limitations](#limitations)
-- [License](#license)
+1. [Features](#features)
+2. [How It Works](#how-it-works)
+3. [Technology Stack](#technology-stack)
+4. [Requirements](#requirements)
+5. [Installation](#installation)
+6. [Configuration](#configuration)
+7. [Quick Start](#quick-start)
+8. [Usage](#usage)
+9. [Project Structure](#project-structure)
+10. [Development](#development)
+11. [Testing](#testing)
+12. [Limitations](#limitations)
+13. [License](#license)
 
 ## Features
 
-### Environment Variable Management
+### Event Management
+- **Create Events**: Easily add new events.
+- **Retrieve Events**: Fetch existing events.
+- **Update Events**: Modify event details.
+- **Delete Events**: Remove unwanted events.
 
-- **Create**: Add new environment variables.
-- **Read**: Retrieve existing environment variables.
-- **Update**: Modify the values of existing environment variables.
-- **Delete**: Remove environment variables that are no longer needed.
-
-### Secure Storage
-
-- Data is stored in MongoDB, ensuring that sensitive information is protected from unauthorized access.
+### Database Integration
+- **MongoDB**: Store and manage events using MongoDB, a NoSQL database.
 
 ## How It Works
 
-The application consists of an Express server that handles incoming requests and routes them to appropriate handlers. The main components are:
+The application is built using Express.js as the web framework. The `app.js` file serves as the entry point for the server. The `routes/events.js` file defines the API endpoints for managing events. The `data/database.js` file handles the connection to MongoDB and CRUD operations.
 
-1. **app.js**: The entry point of the application where the Express server is initialized.
-2. **routes/events.js**: Contains the API endpoints for managing environment variables.
-3. **data/database.js**: Handles the connection to the MongoDB database.
+Here's a simplified architecture diagram:
+
+```
++-------------------+
+|    app.js         |
++---------+---------+
+          |
+          v
++---------+---------+
+| routes/ | data/   |
+| events.js | database.js |
++---------+---------+
+          |
+          v
++---------+---------+
+| body-parser | express | mongodb |
++---------+---------+
+```
 
 ## Technology Stack
 
 | Technology | Purpose |
 |------------|---------|
-| **Express** | A minimal and flexible Node.js web application framework that provides a robust set of features to develop web and mobile applications. |
-| **MongoDB** | A NoSQL database that stores data in JSON-like documents, making it highly scalable and flexible. |
-| **body-parser** | Middleware for parsing incoming request bodies in a middleware before your handlers, available under the `req.body` property. |
+| **Node.js** | Runtime environment for JavaScript applications. |
+| **Express.js** | Web framework for building APIs. |
+| **MongoDB** | NoSQL database for storing event data. |
+| **body-parser** | Middleware to parse incoming request bodies. |
+| **Playwright** | End-to-end testing tool for web applications. |
 
 ## Requirements
 
-- Node.js (>= 14.x)
-- MongoDB (>= 4.0)
+- Node.js (v14 or higher)
+- MongoDB (v4.0 or higher)
 
 ## Installation
 
-To install the project dependencies, run:
+To install the dependencies, run:
 
 ```bash
 npm install
@@ -70,7 +85,13 @@ npm install
 
 ## Configuration
 
-The application does not require any environment variables or configuration files.
+The application uses environment variables to configure the database connection. You can set these variables in a `.env` file:
+
+```plaintext
+MONGO_URI=mongodb://localhost:27017/eventsdb
+```
+
+Alternatively, you can set them directly in your terminal before starting the server.
 
 ## Quick Start
 
@@ -88,28 +109,30 @@ npm run test
 
 ## Usage
 
-### Creating an Environment Variable
+Here are some example commands and usage scenarios:
+
+### Creating an Event
 
 ```bash
-curl -X POST http://localhost:3000/env -H "Content-Type: application/json" -d '{"key": "API_KEY", "value": "123456789"}'
+curl -X POST http://localhost:3000/events -H "Content-Type: application/json" -d '{"name": "Tech Talk", "date": "2023-10-05"}'
 ```
 
-### Reading an Environment Variable
+### Retrieving Events
 
 ```bash
-curl http://localhost:3000/env/API_KEY
+curl http://localhost:3000/events
 ```
 
-### Updating an Environment Variable
+### Updating an Event
 
 ```bash
-curl -X PUT http://localhost:3000/env/API_KEY -H "Content-Type: application/json" -d '{"value": "987654321"}'
+curl -X PUT http://localhost:3000/events/1 -H "Content-Type: application/json" -d '{"name": "Updated Tech Talk", "date": "2023-10-06"}'
 ```
 
-### Deleting an Environment Variable
+### Deleting an Event
 
 ```bash
-curl -X DELETE http://localhost:3000/env/API_KEY
+curl -X DELETE http://localhost:3000/events/1
 ```
 
 ## Project Structure
@@ -128,24 +151,24 @@ curl -X DELETE http://localhost:3000/env/API_KEY
 └── tests/events-api.spec.js
 ```
 
-- **app.js**: Entry point of the application.
-- **data/database.js**: Handles database connection and operations.
-- **routes/events.js**: Contains API endpoints for managing environment variables.
-- **tests/events-api.spec.js**: Test cases for the API endpoints.
+- **app.js**: Entry point for the server.
+- **data/database.js**: Handles database connection and CRUD operations.
+- **routes/events.js**: Defines API endpoints for managing events.
+- **tests/events-api.spec.js**: Contains test cases for the API.
 
 ## Development
 
-To contribute to this project, follow these steps:
+The development workflow involves:
 
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/AmazingFeature`).
-3. Make your changes and commit them (`git commit -m 'Add some AmazingFeature'`).
-4. Push to the branch (`git push origin feature/AmazingFeature`).
-5. Open a pull request.
+1. Cloning the repository.
+2. Installing dependencies using `npm install`.
+3. Setting up environment variables (optional).
+4. Running the server with `npm run start`.
+5. Writing tests in `tests/events-api.spec.js` and running them with `npm run test`.
 
 ## Testing
 
-To run tests, use:
+The application includes end-to-end tests using Playwright. To run the tests, execute:
 
 ```bash
 npm run test
@@ -153,9 +176,9 @@ npm run test
 
 ## Limitations
 
-- This application does not handle authentication and authorization for accessing environment variables.
-- It assumes that MongoDB is running locally on the default port.
+- The project is a simple example and does not include advanced features like authentication or authorization.
+- Error handling could be improved for production use.
 
 ## License
 
-This project is licensed under the ISC License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the ISC license. See the [LICENSE](LICENSE) file for details.
